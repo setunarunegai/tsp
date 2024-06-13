@@ -35,21 +35,22 @@ def mountain(cities):
     dist = dist_list(N, cities)
     tour = solve(N, dist)
     roop_count = 0
+
     while roop_count < N*50:
         choice_border = 0
         while choice_border < N*100:
-            #ランダ�?に二つの点a,cを選ぶ, tourにおいてのindexを与え�?
+            #ランダムに二つの点a,cを選ぶ, tourにおいてのindexを与える?
             a_tour_index = random.randrange(0, N-3)
             c_tour_index = random.randrange(a_tour_index, N-1)
-            #二つの点の次の点b,dを確認a<b<c<d, citiesにおいてのindexを与え�?
+            #二つの点の次の点b,dを確認a<b<c<d, citiesにおいてのindexを与える?
             b = tour[a_tour_index+1]
             d = tour[c_tour_index+1]
             a = tour[a_tour_index]
             c = tour[c_tour_index]
-            #ab+cdとacとbdのdistanceを比�?
+            #ab+cdとacとbdのdistanceを比較
             sa = (dist[a][b]+dist[c][d]) - (dist[a][c]+dist[b][d])
-            base = 1.0898 #�?
-            #絶対値が大きい値�?と計算できな�?ので
+            base = 1.0898 #指数関数の底
+            #絶対値が大きい値だと計算できないので
             if sa<-100: sa = -100
             elif sa>10: sa = 10
             if math.pow(base, sa) >= random.uniform(0.99, 1.0):
@@ -61,6 +62,7 @@ def mountain(cities):
         if choice_border > N*N:
             break
         roop_count += 1
+
     return tour
 
 if __name__ == '__main__':
