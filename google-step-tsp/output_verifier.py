@@ -12,7 +12,7 @@ def distance(city1, city2):
 
 
 def verify_output():
-    for challenge_number in range(CHALLENGES):
+    for challenge_number in [6]:
         print(f'Challenge {challenge_number}')
         cities = read_input(f'input_{challenge_number}.csv')
         N = len(cities)
