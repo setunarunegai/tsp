@@ -5,7 +5,7 @@ from common import format_tour, read_input
 import solver_greedy
 import solver_random
 
-CHALLENGES = 7
+CHALLENGES = 8
 
 
 def generate_sample_output():

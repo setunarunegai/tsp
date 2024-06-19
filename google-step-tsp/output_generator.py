@@ -4,11 +4,11 @@ from common import format_tour, read_input
 
 import annealing
 
-CHALLENGES = 7
+CHALLENGES = 8
 
 
 def generate_output():
-    for i in [6]:
+    for i in [7]:
         cities = read_input(f'input_{i}.csv')
         solver = annealing
         tour = solver.mountain(cities)
