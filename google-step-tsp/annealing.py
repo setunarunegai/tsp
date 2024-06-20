@@ -36,11 +36,6 @@ def optn(n, N, tour, dist):
         (sa, tour_index) =  opt3(N, tour, dist)
     else:
         (sa, tour_index) =  opt4(N, tour, dist)
-    #絶対値が大きい値だと計算できないので
-    if sa<-1000:
-        sa = -1000
-    elif sa>1000:
-        sa = 1000
     return (sa,tour_index)
 
 def opt2(N, tour, dist):
@@ -108,34 +103,30 @@ def mountain(cities):
     dist = makedist(N, cities)
     best_tour = []
     best_distance = 10000000000000
-    anneling_function = [1.0898, 1.04,1.0898, 1.04, 1.00000001] #指数関数の底
-    opt_range = [2,2,3,2,2,3,2,2,3,4] #challenge6,7用。Nが小さいとopt3,4が実行できないため。
-
-    for start in range(N):
-        print(start)
+    opt_range = [2,3,2,3,4]
+    roop_count = 0
+    for start in [0,int(N/3),int(N*2/3)]: #O(1)
+        roop_count = 0
         tour = greedy_solve(start, N, dist)
-        current_distance = total_distance(tour, N, dist)
-        counter = 0
-        while counter < 20000:
-            for n in opt_range:
-                (calculate_distance, tour_index) = optn(n, N, tour, dist)
-                if calculate_distance>= 0:
-                #if calculate_distance>=(1-roop_count/(N*10))*10: #インデント変える
-                #if sa>-1000 and math.pow(base[n-2], sa) >= random.uniform(0.2+roop_count/(N*10)*0.8, 1.0-roop_count/(N*10)*): #焼きなまし部分
-                    #print(f"change {n} calculate_distance {calculate_distance}")
-                    new_tour = tour[:tour_index[0]+1]
-                    for i in range(n-1):
-                        if tour_index[i*2+1] < tour_index[i*2+2]:
-                            new_tour += tour[tour_index[i*2+1]:tour_index[i*2+2]+1]
-                        else:
-                            reverse_tour = tour[tour_index[i*2+2]:tour_index[i*2+1]+1]
-                            reverse_tour.reverse()
-                            new_tour += reverse_tour
-                    new_tour += tour[tour_index[n*2-1]:]
-                    tour = new_tour
-                    counter = 0
-                else:
-                    counter += 1
+        while roop_count < N*3: #O(N)
+            for n in opt_range: #O(1)
+                choice_border = 0
+                while choice_border < N/2: #O(N)
+                    (calculate_distance, tour_index) = optn(n, N, tour, dist)
+                    if calculate_distance>=(1-roop_count/(N*10))*10:
+                        new_tour = tour[:tour_index[0]+1]
+                        for i in range(n-1):
+                            if tour_index[i*2+1] < tour_index[i*2+2]:
+                                new_tour += tour[tour_index[i*2+1]:tour_index[i*2+2]+1]
+                            else:
+                                reverse_tour = tour[tour_index[i*2+2]:tour_index[i*2+1]+1] #O(N)
+                                reverse_tour.reverse()
+                                new_tour += reverse_tour
+                        new_tour += tour[tour_index[n*2-1]:]
+                        tour = new_tour
+                        break
+                    choice_border += 1
+            roop_count += 1
         current_distance = total_distance(tour, N, dist)
         if current_distance < best_distance:
             best_distance = current_distance

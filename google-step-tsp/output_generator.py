@@ -8,7 +8,7 @@ CHALLENGES = 8
 
 
 def generate_output():
-    for i in [7]:
+    for i in [6,7]:
         cities = read_input(f'input_{i}.csv')
         solver = annealing
         tour = solver.mountain(cities)
