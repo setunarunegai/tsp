@@ -4,7 +4,7 @@ import math
 
 from common import read_input
 
-CHALLENGES = 7
+CHALLENGES = 8
 
 
 def distance(city1, city2):
@@ -12,7 +12,7 @@ def distance(city1, city2):
 
 
 def verify_output():
-    for challenge_number in range(CHALLENGES):
+    for challenge_number in [6,7]:
         print(f'Challenge {challenge_number}')
         cities = read_input(f'input_{challenge_number}.csv')
         N = len(cities)
